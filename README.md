@@ -1,5 +1,7 @@
 # Pathfinder 北京地铁路径规划问题
 
+![Pathfinder](Pathfinder.png)
+
 ## 版权&免责声明
 
 本项目使用MIT LICENSE许可证, 允许开发者自由分发, 复制等其他行为, 基于本项目的再开发项目需要包含本项目的原始MIT LICENSE, 一切基于本项目的再开发/使用项目的产生的后果均不由本项目作者承担
