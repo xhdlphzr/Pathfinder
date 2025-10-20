@@ -17,7 +17,7 @@ def a_star(start, end, time, graph):
         if (420 <= time < 540) or (1020 <= time < 1140):
             return 35000 # 高峰期速度35000m/h
         else:
-            return 40000 # 平峰期速度45000m/h
+            return 40000 # 平峰期速度40000m/h
         
     def now_punishment(time):
         if (420 <= time < 540) or (1020 <= time < 1140):
