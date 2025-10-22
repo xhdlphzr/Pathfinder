@@ -3,6 +3,7 @@ import json # 导入json库
 from a_star import * # 导入A*算法
 from datetime import datetime # 导入datetime库
 import streamlit as st # 导入streamlit库
+import pytz # 导入pytz库
 
 def main():
     st.set_page_config(
@@ -54,7 +55,7 @@ def main():
         # 时间输入
         time_col1, time_col2 = st.columns([2, 1])
         with time_col1:
-            time_input = st.text_input("开始时间 (格式: HH:MM, 默认为当前时间):", value=datetime.now().strftime("%H:%M"))
+            time_input = st.text_input("开始时间 (格式: HH:MM, 默认为当前时间):", value=datetime.now(pytz.timezone('Asia/Shanghai')).strftime("%H:%M"))
         
         # 加载图数据
         @st.cache_data
