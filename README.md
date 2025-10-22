@@ -71,3 +71,5 @@ Copyright (c) 2025 xhdlphzr
 `2025.10.19` `A*`算法框架完成 `xhdlphzr`
 
 `2025.10.19` CLI版本顺利写出 `xhdlphzr`
+
+`2025.10.22` 网页版本顺利写出 `xhdlphzr`
