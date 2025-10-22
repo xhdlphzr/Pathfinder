@@ -21,9 +21,9 @@ def a_star(start, end, time, graph):
         
     def now_punishment(time):
         if (420 <= time < 540) or (1020 <= time < 1140):
-            return 5 # 高峰期换乘惩罚因子5
+            return 10 # 高峰期换乘惩罚因子5
         else:
-            return 3 # 平峰期换乘惩罚因子3
+            return 8 # 平峰期换乘惩罚因子3
     
     with open('./data/station.json', 'r', encoding='utf-8') as f:
         station_data = json.load(f)
