@@ -16,13 +16,21 @@ def main():
                 graph[i][j] = int(line[j - 1])
 
     while True:
-        print("欢迎使用Pathfinder北京地铁路径规划系统! 输入q以退出")
-        start_name = input("请输入起始站点名称: ")
+        mod = input("欢迎使用Pathfinder北京地铁路径规划系统! 输入q以退出, 输入t设定开始时间, 输入c继续: ")
 
-        if start_name == 'q':
-            print("感谢使用, 再见!")
+        if mod == 'q':
+            print("感谢使用Pathfinder, 再见!")
             break
 
+        if mod == 't':
+            time = input("请输入开始时间(格式: HH:MM): ")
+            hour, minute = map(int, time.split(':'))
+            time_minutes = hour * 60 + minute
+        elif mod == 'c':
+            now = datetime.now()
+            time_minutes = now.hour * 60 + now.minute
+
+        start_name = input("请输入起始站点名称: ")
         end_name = input("请输入终点站点名称: ")
 
         with open('./data/id.json', 'r', encoding='utf-8') as f:
@@ -30,8 +38,6 @@ def main():
 
         start_id = id_map[start_name]
         end_id = id_map[end_name]
-        now = datetime.now()
-        time_minutes = now.hour * 60 + now.minute
 
         new_time, use_time, path = a_star(start_id, end_id, time_minutes, graph)
         print(f"推荐路线: {' -> '.join([str(station_id) for station_id in path])}")
