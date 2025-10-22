@@ -1,7 +1,6 @@
 import generate # 生成graph邻接矩阵
 import json # 导入json库
 from a_star import * # 导入A*算法
-import tkinter as tk # 导入tkinter库
 from datetime import datetime # 导入datetime库
 import streamlit as st # 导入streamlit库
 
