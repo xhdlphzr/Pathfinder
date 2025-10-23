@@ -2,7 +2,7 @@ import json
 import heapq
 from geopy.distance import distance
 
-def a_star(start, end, time, graph):
+def a_star(start, end, time, graph, peak_penalty, off_peak_penalty):
     """
     A*算法实现北京路径规划问题
     变量说明:
@@ -21,9 +21,9 @@ def a_star(start, end, time, graph):
         
     def now_punishment(time):
         if (420 <= time < 540) or (1020 <= time < 1140):
-            return 10 # 高峰期换乘惩罚因子5
+            return peak_penalty # 高峰期换乘惩罚因子
         else:
-            return 8 # 平峰期换乘惩罚因子3
+            return off_peak_penalty # 平峰期换乘惩罚因子
     
     with open('./data/station.json', 'r', encoding='utf-8') as f:
         station_data = json.load(f)

@@ -57,6 +57,38 @@ def main():
         with time_col1:
             time_input = st.text_input("开始时间 (格式: HH:MM, 默认为当前时间):", value=datetime.now(pytz.timezone('Asia/Shanghai')).strftime("%H:%M"))
         
+        # 添加换乘惩罚因子调试滑动条
+        st.markdown("---")
+        st.subheader("🧪 换乘惩罚因子设置")
+        
+        # 创建两列布局用于两个滑动条
+        penalty_col1, penalty_col2 = st.columns(2)
+        
+        with penalty_col1:
+            peak_penalty = st.slider(
+                "高峰期换乘惩罚因子 (分钟)",
+                min_value=0,
+                max_value=20,
+                value=10,  # 默认值10
+                step=1,
+                help="高峰期每次换乘的额外时间惩罚"
+            )
+            st.metric("高峰期惩罚值", f"{peak_penalty}分钟")
+            
+        with penalty_col2:
+            off_peak_penalty = st.slider(
+                "平峰期换乘惩罚因子 (分钟)", 
+                min_value=0,
+                max_value=20,
+                value=8,   # 默认值8
+                step=1,
+                help="平峰期每次换乘的额外时间惩罚"
+            )
+            st.metric("平峰期惩罚值", f"{off_peak_penalty}分钟")
+        
+        st.caption("调整换乘惩罚因子可以影响路径规划对换乘的偏好程度, 建议使用默认值")
+        st.markdown("---")
+        
         # 加载图数据
         @st.cache_data
         def load_graph():
@@ -119,7 +151,7 @@ def main():
             # 显示加载状态
             with st.spinner('正在计算最优路径...'):
                 try:
-                    new_time, use_time, path = a_star(start_id, end_id, time_minutes, graph)
+                    new_time, use_time, path = a_star(start_id, end_id, time_minutes, graph, peak_penalty, off_peak_penalty)
                     
                     # 显示结果
                     st.success("路径规划完成！")
