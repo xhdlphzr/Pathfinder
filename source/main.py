@@ -4,6 +4,7 @@ from a_star import * # 导入A*算法
 from datetime import datetime # 导入datetime库
 import streamlit as st # 导入streamlit库
 import pytz # 导入pytz库
+from same import * # 导入same模块
 
 def main():
     st.set_page_config(
@@ -138,10 +139,20 @@ def main():
                 return
             
             if start_name not in id_map:
+                if same(start_name):
+                    suggestion = same(start_name)[1]
+                    st.warning(f"起始站点 '{start_name}' 不存在! 您是否想输入 '{suggestion}' ?")
+                    return
+
                 st.error(f"起始站点 '{start_name}' 不存在!")
                 return
                 
             if end_name not in id_map:
+                if same(end_name):
+                    suggestion = same(end_name)[1]
+                    st.warning(f"终点站点 '{end_name}' 不存在! 您是否想输入 '{suggestion}' ?")
+                    return
+
                 st.error(f"终点站点 '{end_name}' 不存在!")
                 return
             
