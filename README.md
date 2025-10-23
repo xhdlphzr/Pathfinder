@@ -58,7 +58,7 @@ Copyright (c) 2025 xhdlphzr
 
 1. 调用`json`库以读取数据
 2. 使用`A*`算法完成代码
-3. 使用`datetime`库获取时间, `tkinter`完成GUI制作
+3. 使用`datetime`库和`pytz`库获取时间, `streamlit`完成GUI制作
 
 ## 工程日志
 
