@@ -17,6 +17,18 @@ def main():
     if 'page' not in st.session_state:
         st.session_state.page = 'home'
 
+    # 初始化方案配置
+    if 'strategy_config' not in st.session_state:
+        st.session_state.strategy_config = {
+            '时间优先': {'peak': 5, 'off_peak': 3},
+            '综合推荐': {'peak': 10, 'off_peak': 8},
+            '换乘最少': {'peak': 15, 'off_peak': 13}
+        }
+    
+    # 初始化当前方案
+    if 'current_strategy' not in st.session_state:
+        st.session_state.current_strategy = '综合推荐'
+
     # 侧边栏导航
     with st.sidebar:
         st.title('Pathfinder北京地铁路径规划系统')
@@ -58,21 +70,59 @@ def main():
         with time_col1:
             time_input = st.text_input("开始时间 (格式: HH:MM, 默认为当前时间):", value=datetime.now(pytz.timezone('Asia/Shanghai')).strftime("%H:%M"))
         
-        # 添加换乘惩罚因子调试滑动条
+        # 添加方案选择和换乘惩罚因子设置
+        st.markdown("---")
+        st.subheader("🎯 路径规划方案")
+        
+        # 方案选择
+        strategy_col1, strategy_col2 = st.columns([1, 2])
+        with strategy_col1:
+            selected_strategy = st.selectbox(
+                "选择规划方案",
+                options=["时间优先", "综合推荐", "换乘最少", "自定义"],
+                index=1,  # 默认选择"综合推荐"
+                help="选择不同的路径规划策略"
+            )
+        
+        with strategy_col2:
+            if selected_strategy == "时间优先":
+                st.success("⏱️ 时间优先：追求最快到达，可能包含较多换乘")
+            elif selected_strategy == "综合推荐":
+                st.info("⚖️ 综合推荐：平衡时间和换乘次数的最佳方案")
+            elif selected_strategy == "换乘最少":
+                st.warning("🔄 换乘最少：尽量减少换乘次数，时间可能稍长")
+            else:
+                st.info("🎛️ 自定义：手动调整换乘惩罚因子")
+        
+        # 更新当前方案
+        if selected_strategy != st.session_state.current_strategy:
+            st.session_state.current_strategy = selected_strategy
+        
         st.markdown("---")
         st.subheader("🧪 换乘惩罚因子设置")
+        
+        # 根据选择的方案设置默认值
+        if selected_strategy in st.session_state.strategy_config:
+            default_peak = st.session_state.strategy_config[selected_strategy]['peak']
+            default_off_peak = st.session_state.strategy_config[selected_strategy]['off_peak']
+        else:
+            default_peak = 10
+            default_off_peak = 8
         
         # 创建两列布局用于两个滑动条
         penalty_col1, penalty_col2 = st.columns(2)
         
         with penalty_col1:
+            # 如果选择预设方案，禁用滑动条；如果选择自定义，启用滑动条
+            disabled = (selected_strategy != "自定义")
             peak_penalty = st.slider(
                 "高峰期换乘惩罚因子 (分钟)",
                 min_value=0,
                 max_value=20,
-                value=10,  # 默认值10
+                value=default_peak,
                 step=1,
-                help="高峰期每次换乘的额外时间惩罚"
+                disabled=disabled,
+                help="高峰期每次换乘的额外时间惩罚" + (" (当前使用预设方案)" if disabled else "")
             )
             st.metric("高峰期惩罚值", f"{peak_penalty}分钟")
             
@@ -81,13 +131,20 @@ def main():
                 "平峰期换乘惩罚因子 (分钟)", 
                 min_value=0,
                 max_value=20,
-                value=8,   # 默认值8
+                value=default_off_peak,
                 step=1,
-                help="平峰期每次换乘的额外时间惩罚"
+                disabled=disabled,
+                help="平峰期每次换乘的额外时间惩罚" + (" (当前使用预设方案)" if disabled else "")
             )
             st.metric("平峰期惩罚值", f"{off_peak_penalty}分钟")
         
-        st.caption("调整换乘惩罚因子可以影响路径规划对换乘的偏好程度, 建议使用默认值")
+        # 显示方案说明
+        if selected_strategy != "自定义":
+            current_config = st.session_state.strategy_config[selected_strategy]
+            st.caption(f"当前方案「{selected_strategy}」: 高峰期 {current_config['peak']}分钟, 平峰期 {current_config['off_peak']}分钟")
+        else:
+            st.caption("自定义模式：手动调整换乘惩罚因子来影响路径规划偏好")
+        
         st.markdown("---")
         
         # 加载图数据
