@@ -1,6 +1,9 @@
 import json
 import heapq
 from geopy.distance import distance
+import init # 初始化
+
+station_size = init.init_station_size()
 
 def a_star(start, end, time, graph, peak_penalty, off_peak_penalty):
     """
@@ -55,8 +58,8 @@ def a_star(start, end, time, graph, peak_penalty, off_peak_penalty):
     open_list = []
     heapq.heappush(open_list, (heuristic(start, end), heuristic(start, end), start)) # (f, h, id)
     close_list = []
-    prev = [-1] * 411
-    g = [999999999] * 411 # 到这个点的最优时间到当天0:00的分钟数
+    prev = [-1] * station_size
+    g = [999999999] * station_size # 到这个点的最优时间到当天0:00的分钟数
     g[start] = time
 
     while open_list:
@@ -84,7 +87,7 @@ def a_star(start, end, time, graph, peak_penalty, off_peak_penalty):
 
             return g[end], g[end] - time, path
 
-        for neighbor in range(1, 411):
+        for neighbor in range(1, station_size):
             # 有连接
             if graph[now][neighbor] != -1:
                 # 更新graph值

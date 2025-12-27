@@ -1,5 +1,8 @@
 import json
 from geopy.distance import distance
+import init # 初始化
+
+station_size = init.init_station_size()
 
 def generate_graph():
     """生成地铁线路的邻接矩阵"""
@@ -13,8 +16,8 @@ def generate_graph():
     with(open('./data/id.json', 'r', encoding='utf-8')) as f:
         id_map = json.load(f)
 
-    graph = [[-1] * 411 for _ in range(411)] # 邻接矩阵
-    for i in range(1, 411):
+    graph = [[-1] * station_size for _ in range(station_size)] # 邻接矩阵
+    for i in range(1, station_size):
         graph[i][i] = 0
 
     for i in line:
@@ -38,8 +41,8 @@ def generate_graph():
                 graph[id_map[name_next]][id_map[name_now]] = graph[id_map[name_now]][id_map[name_next]]
 
     with(open('./data/graph.txt', 'w', encoding='utf-8')) as f:
-        for i in range(1, 411):
-            for j in range(1, 411):
+        for i in range(1, station_size):
+            for j in range(1, station_size):
                 print(graph[i][j], end=' ', file=f)
             print('', file=f)
 

@@ -5,6 +5,9 @@ from datetime import datetime # 导入datetime库
 import streamlit as st # 导入streamlit库
 import pytz # 导入pytz库
 from same import * # 导入same模块
+import init # 初始化
+
+station_size = init.init_station_size()
 
 def main():
     st.set_page_config(
@@ -150,12 +153,12 @@ def main():
         # 加载图数据
         @st.cache_data
         def load_graph():
-            graph = [[-1] * 411 for _ in range(411)]
+            graph = [[-1] * station_size for _ in range(station_size)]
             try:
                 with open('./data/graph.txt', 'r', encoding='utf-8') as f:
-                    for i in range(1, 411):
+                    for i in range(1, station_size):
                         line = f.readline().strip().split()
-                        for j in range(1, 411):
+                        for j in range(1, station_size):
                             graph[i][j] = int(line[j - 1])
                 return graph
             except FileNotFoundError:
