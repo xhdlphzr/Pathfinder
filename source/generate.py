@@ -13,8 +13,8 @@ def generate_graph():
     with(open('./data/id.json', 'r', encoding='utf-8')) as f:
         id_map = json.load(f)
 
-    graph = [[-1] * 402 for _ in range(402)] # 邻接矩阵
-    for i in range(1, 402):
+    graph = [[-1] * 411 for _ in range(411)] # 邻接矩阵
+    for i in range(1, 411):
         graph[i][i] = 0
 
     for i in line:
@@ -38,8 +38,8 @@ def generate_graph():
                 graph[id_map[name_next]][id_map[name_now]] = graph[id_map[name_now]][id_map[name_next]]
 
     with(open('./data/graph.txt', 'w', encoding='utf-8')) as f:
-        for i in range(1, 402):
-            for j in range(1, 402):
+        for i in range(1, 411):
+            for j in range(1, 411):
                 print(graph[i][j], end=' ', file=f)
             print('', file=f)
 

@@ -150,12 +150,12 @@ def main():
         # 加载图数据
         @st.cache_data
         def load_graph():
-            graph = [[-1] * 402 for _ in range(402)]
+            graph = [[-1] * 411 for _ in range(411)]
             try:
                 with open('./data/graph.txt', 'r', encoding='utf-8') as f:
-                    for i in range(1, 402):
+                    for i in range(1, 411):
                         line = f.readline().strip().split()
-                        for j in range(1, 402):
+                        for j in range(1, 411):
                             graph[i][j] = int(line[j - 1])
                 return graph
             except FileNotFoundError:
