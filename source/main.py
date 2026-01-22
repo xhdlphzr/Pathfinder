@@ -237,7 +237,7 @@ def main():
                     # 时间信息
                     col1, col2 = st.columns(2)
                     with col1:
-                        st.metric("预计到达时间", f"{new_time // 60:02d}:{new_time % 60:02d}")
+                        st.metric("预计到达时间", f"{((new_time // 60) % 24):02d}:{new_time % 60:02d}")
                     with col2:
                         st.metric("总用时", f"{use_time} 分钟")
                         
