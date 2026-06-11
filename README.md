@@ -20,7 +20,7 @@ Copyright (c) 2025 xhdlphzr
 
 #### 邻接矩阵
 
-`./data/line.json`和`./data/station.json`的站点和线路的信息部分是通过 AI 工具获得数据部分是高德地图API, 其中坐标信息是高德地图API获取的, 通过人工对比北京地铁线路图来检查, id信息是通过递增注册的方式来写的
+`./data/line.json`和`./data/station.json`的站点和线路的信息部分是通过 AI 工具获得数据, 其中坐标信息是高德地图API获取的, 通过人工对比北京地铁线路图来检查, id信息是通过递增注册的方式来写的
 
 `beijing_subway_map.geojson`是展示作用, copyright: The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.
 
