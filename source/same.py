@@ -1,5 +1,9 @@
+# Copyright (C) 2026 xhdlphzr
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 import json
 import heapq
+
 
 def same(x):
     """
@@ -8,7 +12,7 @@ def same(x):
     x: 输入的站点的名称
     """
 
-    with open('./data/id.json', 'r', encoding='utf-8') as f:
+    with open("./data/id.json", "r", encoding="utf-8") as f:
         id_map = json.load(f)
 
     results = []
